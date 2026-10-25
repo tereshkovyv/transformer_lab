@@ -1,16 +1,27 @@
+# Python
 __pycache__/
+*.py[cod]
 *.egg-info/
 build/
 dist/
+
+# virtual environments
+.venv/
+venv/
+
+# IDE and Jupyter
 .idea/
+.vscode/
 .ipynb_checkpoints/
 
-# data and training outputs
+# data (downloaded and tokenized, reproducible from the pinned revision)
 data/
+
+# model weights; run configs and loss plots in runs/ stay in git
 *.pth
 *.pt
 
 # local-only
 CLAUDE.md
 Рашка. LLM с нуля/
-Эксперимент_Transformer_по_методике_Себастьяна_Рашки_2.ipynb
+Эксперимент_Transformer_*.ipynb
