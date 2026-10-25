@@ -1,11 +1,22 @@
 import torch
-
 from transformer_lab.model.generate import generate_text_simple
-from transformer_lab.training.loss import calc_loss_batch, calc_loss_loader
 
+def calc_loss_batch(input_batch, target_batch, model, device):
+    """(Raschka, ch. 5.1)."""
+    input_batch, target_batch = input_batch.to(device), target_batch.to(device)
+    logits = model(input_batch)
+    return torch.nn.functional.cross_entropy(logits.flatten(0, 1), target_batch.flatten())
+
+def calc_loss_loader(data_loader, model, device, num_batches=None):
+    num_batches = len(data_loader) if num_batches is None else min(num_batches, len(data_loader))
+    total_loss = 0.0
+    for i, (input_batch, target_batch) in enumerate(data_loader):
+        if i == num_batches:
+            break
+        total_loss += calc_loss_batch(input_batch, target_batch, model, device).item()
+    return total_loss / num_batches
 
 def evaluate_model(model, train_loader, val_loader, device, eval_iter):
-    """Train and val loss on the first eval_iter batches, without dropout or gradients (Raschka, ch. 5.2)."""
     model.eval()
     with torch.no_grad():
         train_loss = calc_loss_loader(train_loader, model, device, num_batches=eval_iter)
@@ -15,7 +26,7 @@ def evaluate_model(model, train_loader, val_loader, device, eval_iter):
 
 
 def generate_and_print_sample(model, tokenizer, device, start_context):
-    """Print a 50-token greedy continuation of start_context."""
+    """Выводит текст после каждой эпохи. Raschka, ch. 5.2."""
     model.eval()
     encoded = torch.tensor(tokenizer.encode(start_context)).unsqueeze(0).to(device)
     token_ids = generate_text_simple(model, encoded, max_new_tokens=50,
@@ -23,11 +34,8 @@ def generate_and_print_sample(model, tokenizer, device, start_context):
     print(tokenizer.decode(token_ids.squeeze(0).tolist()).replace("\n", " "))
     model.train()
 
-
-# Loshchilov, Hutter, 2019, "Decoupled Weight Decay Regularization" (AdamW, the optimizer passed in)
 def train_model_simple(model, train_loader, val_loader, optimizer, device, num_epochs,
                        eval_freq, eval_iter, start_context, tokenizer):
-    """Plain training loop: AdamW steps, periodic evaluation, a sample after each epoch (Raschka, ch. 5.2)."""
     train_losses, val_losses, track_tokens_seen = [], [], []
     tokens_seen, global_step = 0, -1
 
