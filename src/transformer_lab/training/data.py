@@ -14,7 +14,6 @@ DATA_DIR = "data/wikitext-103"  # default location; every function takes data_di
 SHARDS = {
     "train": ["train-00000-of-00002", "train-00001-of-00002"],
     "validation": ["validation-00000-of-00001"],
-    "test": ["test-00000-of-00001"],
 }
 
 
@@ -37,16 +36,15 @@ def tokenize_split(split, data_dir=DATA_DIR):
     token_ids = np.array(tokenizer.encode_ordinary(text), dtype=np.uint16)
     os.makedirs(f"{data_dir}/tokens", exist_ok=True)
     np.save(f"{data_dir}/tokens/{split}.npy", token_ids)
-    return token_ids
 
 
 class TokenDataset(Dataset):
-    """Non-overlapping (input, target) windows; same pairs as GPTDatasetV1 with stride=max_length (Raschka, ch. 2.6)."""
+    """Датасет (Raschka, ch. 2.6)."""
 
     def __init__(self, split, max_length, data_dir=DATA_DIR):
         path = f"{data_dir}/tokens/{split}.npy"
         if not os.path.exists(path):
-            tokenize_split(split, data_dir)  # first use: download the pinned parquet and tokenize (minutes for train)
+            tokenize_split(split, data_dir)
         self.token_ids = np.load(path)
         self.max_length = max_length
 
@@ -56,4 +54,4 @@ class TokenDataset(Dataset):
     def __getitem__(self, idx):
         start = idx * self.max_length
         chunk = torch.from_numpy(self.token_ids[start:start + self.max_length + 1].astype(np.int64))
-        return chunk[:-1], chunk[1:]  # target = input shifted by one token
+        return chunk[:-1], chunk[1:]
