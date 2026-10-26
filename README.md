@@ -52,8 +52,3 @@ from transformer_lab.training.train import train_model_simple
 ### training
 **data.py** - в нем есть класс TokenDataset - который можно просто брать и использовать(там внутри датасет **wikitext-103**)
 **train.py** - код обучения модели. Взят из Raschka, ch. 5.2.
-
-
-### Тесты
-
-Тесты были завайбкожены. Они созданы для того, чтобы убедиться, чтобы все, что мы сделали - ничего не ломает. `python tests/run_all.py`.
