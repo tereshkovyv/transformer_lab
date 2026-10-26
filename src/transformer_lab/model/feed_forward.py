@@ -31,7 +31,7 @@ class FeedForward(nn.Module):
 
 # Elfwing, Uchibe, Doya, 2017, "Sigmoid-Weighted Linear Units for Neural Network Function Approximation in Reinforcement Learning" (SiLU)
 class SiLU(nn.Module):
-    """Функция активации SiLU (Raschka, ch05/07_gpt_to_llama)."""
+    """Функция активации SiLU"""
 
     def forward(self, x):
         return x * torch.sigmoid(x)
@@ -39,7 +39,6 @@ class SiLU(nn.Module):
 
 # Shazeer, 2020, "GLU Variants Improve Transformer"
 class SwiGLUFeedForward(nn.Module):
-    """FeedForward с гейтом SwiGLU, как в Llama (Raschka, ch05/07_gpt_to_llama)."""
 
     def __init__(self, cfg):
         super().__init__()

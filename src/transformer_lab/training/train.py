@@ -64,13 +64,10 @@ def train_model_simple(model, train_loader, val_loader, optimizer, device, num_e
     return train_losses, val_losses, track_tokens_seen
 
 
-# Loshchilov, Hutter, 2017, "SGDR: Stochastic Gradient Descent with Warm Restarts" (cosine decay)
-# Pascanu, Mikolov, Bengio, 2013, "On the difficulty of training recurrent neural networks" (gradient clipping)
-# Micikevicius et al., 2018, "Mixed Precision Training" (AMP; not in Raschka)
 def train_model(model, train_loader, val_loader, optimizer, device, n_epochs,
                 eval_freq, eval_iter, start_context, tokenizer,
                 warmup_steps, initial_lr=3e-05, min_lr=1e-6, use_amp=False):
-    """Обучение с warmup, cosine decay и gradient clipping (Raschka, appendix D.4)."""
+    """Обучение с warmup, cosine decay и gradient clipping """
     train_losses, val_losses, track_tokens_seen, track_lrs = [], [], [], []
     tokens_seen, global_step = 0, -1
 
@@ -99,7 +96,6 @@ def train_model(model, train_loader, val_loader, optimizer, device, n_epochs,
                 loss = calc_loss_batch(input_batch, target_batch, model, device)
             scaler.scale(loss).backward()
 
-            # The book clips only after warmup; we clip from the first step, as in the colleague's run
             scaler.unscale_(optimizer)
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             scaler.step(optimizer)
