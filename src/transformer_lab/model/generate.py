@@ -1,6 +1,5 @@
 import torch
 
-
 def generate_text_simple(model, idx, max_new_tokens, context_size):
     """Простой жадный генератор (Raschka, ch. 4.7)."""
     for _ in range(max_new_tokens):

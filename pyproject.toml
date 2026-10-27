@@ -11,9 +11,7 @@ requires-python = ">=3.10"
 dependencies = [
     "torch>=2.0",
     "numpy",
-    "pandas",
-    "pyarrow",  # parquet reader for pandas
-    "tiktoken",
+    "pyarrow",  # parquet reader
     "sentencepiece",  # Llama 2 tokenizer
     "huggingface_hub",
 ]
