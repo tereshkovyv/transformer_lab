@@ -6,8 +6,6 @@ from transformer_lab.model.layer_norm import RMSNorm
 
 
 class TransformerBlockV2(nn.Module):
-    """Блок трансформера как в Llama: RoPE, RMSNorm, SwiGLU (Raschka, ch05/07_gpt_to_llama)."""
-
     def __init__(self, cfg):
         super().__init__()
         self.att = MultiHeadAttentionV2(

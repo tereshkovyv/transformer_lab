@@ -20,8 +20,6 @@ def compute_rope(x, cos, sin):
 
 # Touvron et al., 2023, "Llama 2: Open Foundation and Fine-Tuned Chat Models"
 class MultiHeadAttentionV2(nn.Module):
-    """Causal multi-head self-attention с RoPE и out_proj без bias, как в Llama (Raschka, ch05/07_gpt_to_llama)."""
-
     def __init__(self, d_in, d_out, context_length, dropout, num_heads, qkv_bias=False):
         super().__init__()
         assert d_out % num_heads == 0, "d_out must be divisible by num_heads"

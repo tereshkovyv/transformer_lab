@@ -23,7 +23,7 @@ def train_model_min(model, train_loader, val_loader, optimizer, device,
     peak_lr = optimizer.param_groups[0]["lr"]
     total_steps = len(train_loader)
     scaler = torch.amp.GradScaler("cuda")
-    train_losses, val_losses, lrs = [], [], []  # val_losses holds (step, loss) pairs
+    train_losses, val_losses, lrs = [], [], []
     for step, (input_batch, target_batch) in enumerate(train_loader):
         if step < warmup_steps:
             lr = peak_lr * (step + 1) / warmup_steps
