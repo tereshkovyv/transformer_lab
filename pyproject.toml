@@ -14,6 +14,7 @@ dependencies = [
     "pandas",
     "pyarrow",  # parquet reader for pandas
     "tiktoken",
+    "sentencepiece",  # Llama 2 tokenizer
     "huggingface_hub",
 ]
 
