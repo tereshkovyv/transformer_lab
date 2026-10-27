@@ -23,6 +23,7 @@ def train_model_min(model, train_loader, val_loader, optimizer, device,
     peak_lr = optimizer.param_groups[0]["lr"]
     total_steps = len(train_loader)
     scaler = torch.amp.GradScaler("cuda")
+    train_losses, val_losses, lrs = [], [], []  # val_losses holds (step, loss) pairs
     for step, (input_batch, target_batch) in enumerate(train_loader):
         if step < warmup_steps:
             lr = peak_lr * (step + 1) / warmup_steps
@@ -40,10 +41,14 @@ def train_model_min(model, train_loader, val_loader, optimizer, device,
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         scaler.step(optimizer)
         scaler.update()
+        train_losses.append(loss.item())
+        lrs.append(lr)
 
         if (step + 1) % eval_freq == 0 or step + 1 == total_steps:
             model.eval()
             with torch.no_grad():
                 val_loss = calc_loss_loader(val_loader, model, device, num_batches=eval_iter)
             model.train()
+            val_losses.append((step + 1, val_loss))
             print(f"Step {step + 1}: train loss {loss.item():.3f}, val loss {val_loss:.3f}")
+    return train_losses, val_losses, lrs
