@@ -1,4 +1,4 @@
-# Материалы по книге С. Рвшка "LLM с нуля"
+# Материалы по книге С. Рашка "LLM с нуля"
 
 - **Электронная версия книги:** [читать здесь](https://djvu.online/file/g93qJIMJq4FWi?ysclid=mvmhyyf9ym608005613)
 - **Код и эксперименты из книги:** [репозиторий](https://github.com/rasbt/LLMs-from-scratch)
