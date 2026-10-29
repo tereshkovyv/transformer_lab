@@ -6,6 +6,6 @@
 
 | № | Материал | Описание |
 |---|---|---|
-| 1 | [Attention Optimization — Literature Review] | Анализ научных статей, сравнение методов оптимизации и формирование гипотез для экспериментов. |
+| 1 | [Attention Optimization — Literature Review](https://github.com/tereshkovyv/transformer_lab/blob/optimization-research/research/attention_literature_review.xlsx) | Лист 1.1 — Attention Research: краткое описание 12 научных статей, их основных идей и исследуемых методов оптимизации Attention. Лист 1.2 — Attention Research Analysis: сравнительный анализ статей по наличию исходного кода, воспроизводимости методов, наличию baseline и другим критериям применимости к эксперименту. Лист 1.3 — Гипотезы: анализ 7 отобранных научных статей и формулировка 4 исследовательских гипотез для последующей экспериментальной проверки. |
 
 ---
